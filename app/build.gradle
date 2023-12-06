@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.filmdrawer'
+    namespace 'com.soligdag.filmdrawer'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.filmdrawer"
+        applicationId "com.soligdag.filmdrawer"
         minSdk 24
         targetSdk 34
         versionCode 1
@@ -20,7 +20,7 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
-        buildConfigField "String" , "API_KEY" ,  "\"$TMDBAPIKEY\""
+        buildConfigField "String" , "TMDB_API_KEY" ,  "\"$TMDBAPIKEY\""
     }
 
     buildTypes {

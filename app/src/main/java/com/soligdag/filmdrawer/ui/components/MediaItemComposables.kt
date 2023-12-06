@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.filmdrawer.R
+import com.soligdag.filmdrawer.R
 import com.soligdag.filmdrawer.data.models.MediaItem
 import com.soligdag.filmdrawer.data.models.Recommendation
 import com.soligdag.filmdrawer.data.models.WishlistItem

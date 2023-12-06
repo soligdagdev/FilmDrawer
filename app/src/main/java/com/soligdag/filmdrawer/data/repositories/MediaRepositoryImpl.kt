@@ -1,10 +1,7 @@
 package com.soligdag.filmdrawer.data.repositories
 
-import android.net.http.HttpException
-import android.net.http.NetworkException
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresExtension
+import com.soligdag.filmdrawer.BuildConfig
 import com.soligdag.filmdrawer.data.RepositoryResource
 import com.soligdag.filmdrawer.data.ResourceError
 import com.soligdag.filmdrawer.data.models.CastList
@@ -26,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MediaRepositoryImpl(private val networkAPIService : NetworkAPIService, private val database : FilmDrawerDatabase) : MediaRepository {
 
 
-    private val tmdbAPIToken  = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MWQxNzU4ZjhhZGE0ZGFmOGVlYjUxMzMwNjRkODJmYSIsInN1YiI6IjY1MjZmNGUzODEzODMxMDBjNDg5YTY5MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.o8ps6XFTtbxoCw1zepMLynDDPJmHckFyf48EZxpdIFs"
+    private val tmdbAPIToken  = BuildConfig.TMDB_API_KEY
 
 
     override suspend fun getTrendingMovies(): RepositoryResource<List<MediaItem>> {

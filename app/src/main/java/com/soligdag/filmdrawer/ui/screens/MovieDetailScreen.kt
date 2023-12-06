@@ -50,8 +50,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.filmdrawer.R
 import com.soligdag.filmdrawer.FilmDrawerApplication
+import com.soligdag.filmdrawer.R
 import com.soligdag.filmdrawer.data.models.CastMember
 import com.soligdag.filmdrawer.data.models.CrewMember
 import com.soligdag.filmdrawer.data.models.MovieDetail

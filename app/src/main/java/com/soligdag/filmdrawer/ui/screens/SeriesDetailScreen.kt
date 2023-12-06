@@ -43,7 +43,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.filmdrawer.R
 import com.soligdag.filmdrawer.data.models.CastMember
 import com.soligdag.filmdrawer.data.models.CrewMember
 import com.soligdag.filmdrawer.data.models.SeriesDetail
@@ -62,6 +61,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.soligdag.filmdrawer.FilmDrawerApplication
+import com.soligdag.filmdrawer.R
 import com.soligdag.filmdrawer.ui.components.LoadingDialog
 import com.soligdag.filmdrawer.ui.viewmodels.SeriesDetailViewModel
 import com.soligdag.filmdrawer.ui.viewmodels.viewModelFactory
