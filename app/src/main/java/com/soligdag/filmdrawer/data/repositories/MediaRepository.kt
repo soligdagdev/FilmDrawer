@@ -17,7 +17,5 @@ interface MediaRepository {
     suspend fun getMovieDetail(movieId : Int) : RepositoryResource<Pair<MovieDetail, CastList>>
     suspend fun getSeriesDetail(seriesId : Int) : RepositoryResource<Pair<SeriesDetail, CastList>>
 
-    suspend fun addItemToWishlist(mediaItem: MediaItem) : RepositoryResource<MediaItem>
-    suspend fun getAllWishlistItems() : RepositoryResource<List<WishlistItem>>
-    suspend fun deleteWishlistItem(wishlistItem: WishlistItem) : RepositoryResource<List<WishlistItem>>
+
 }

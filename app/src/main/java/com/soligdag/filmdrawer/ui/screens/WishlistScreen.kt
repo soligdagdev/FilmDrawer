@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.soligdag.filmdrawer.FilmDrawerApplication
 import com.soligdag.filmdrawer.data.models.WishlistItem
 import com.soligdag.filmdrawer.data.models.dummyWishlist
@@ -30,9 +31,7 @@ import com.soligdag.filmdrawer.ui.viewmodels.viewModelFactory
 
 @Composable
 fun WishlistScreen(onItemClicked: (wishlistItem: WishlistItem) -> Unit,
-    viewModel: WishlistViewModel = androidx.lifecycle.viewmodel.compose.viewModel(factory = viewModelFactory {
-        WishlistViewModel(FilmDrawerApplication.container.mediaRepository)
-    })
+    viewModel: WishlistViewModel = hiltViewModel()
 ) {
     Log.d("Wishlist Screen", "Root Composing")
     val uiState by viewModel.uiState.collectAsState()
@@ -84,7 +83,10 @@ private fun WatchlistContent(
             }
         }
         else {
-           Column(Modifier.fillMaxSize().padding(start = 16.dp, end = 16.dp, bottom = 80.dp), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+           Column(
+               Modifier
+                   .fillMaxSize()
+                   .padding(start = 16.dp, end = 16.dp, bottom = 80.dp), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(modifier = Modifier.padding(16.dp), text = "Your list is empty", style = Typography.headlineSmall)
                 Text(text = "You can add movies or TV series here by searching or from received recommendations.", style = Typography.bodyMedium.copy(textAlign = TextAlign.Center))
            }

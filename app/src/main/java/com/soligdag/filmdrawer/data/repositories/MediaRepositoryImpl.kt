@@ -19,8 +19,9 @@ import kotlinx.coroutines.Delay
 import kotlinx.coroutines.delay
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
-class MediaRepositoryImpl(private val networkAPIService : NetworkAPIService, private val database : FilmDrawerDatabase) : MediaRepository {
+class MediaRepositoryImpl @Inject constructor( private val networkAPIService : NetworkAPIService) : MediaRepository {
 
 
     private val tmdbAPIToken  = BuildConfig.TMDB_API_KEY
@@ -99,23 +100,7 @@ class MediaRepositoryImpl(private val networkAPIService : NetworkAPIService, pri
         }
     }
 
-    override suspend fun addItemToWishlist(mediaItem: MediaItem): RepositoryResource<MediaItem> {
-        val wishlistItem = WishlistItem(mediaItem = mediaItem)
-        database.wishlistDao().insertAll(wishlistItem)
-        return RepositoryResource.Success(mediaItem)
-    }
 
-    override suspend fun getAllWishlistItems(): RepositoryResource<List<WishlistItem>> {
-        val allWishlistItems = database.wishlistDao().getAll()
-        return RepositoryResource.Success(allWishlistItems)
-    }
-
-    override suspend fun deleteWishlistItem(wishlistItem: WishlistItem): RepositoryResource<List<WishlistItem>> {
-        database.wishlistDao().delete(wishlistItem)
-        val allWishlistItems = database.wishlistDao().getAll()
-        return RepositoryResource.Success(allWishlistItems)
-
-    }
 
 
 }

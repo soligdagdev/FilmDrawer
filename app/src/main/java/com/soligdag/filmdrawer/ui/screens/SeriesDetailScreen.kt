@@ -59,6 +59,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.soligdag.filmdrawer.FilmDrawerApplication
 import com.soligdag.filmdrawer.R
@@ -71,14 +72,7 @@ fun SeriesDetailScreen(
     seriesId: Int = 0,
     onAddedToWishList : () -> Unit = {},
     viewModel: SeriesDetailViewModel =
-        viewModel(
-            factory = viewModelFactory {
-                SeriesDetailViewModel(
-                    seriesId = seriesId,
-                    FilmDrawerApplication.container.mediaRepository
-                )
-            },
-        )
+        hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     if (uiState.isLoading) {

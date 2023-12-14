@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.soligdag.filmdrawer.FilmDrawerApplication
 import com.soligdag.filmdrawer.data.models.MediaItem
@@ -62,9 +63,7 @@ import com.soligdag.filmdrawer.ui.viewmodels.viewModelFactory
  */
 @Composable
 fun SearchScreen(
-    queryText: String = "", viewModel: SearchViewModel = viewModel(
-        factory = viewModelFactory { SearchViewModel(startSearchQuery = queryText, FilmDrawerApplication.container.mediaRepository) },
-    ), onMediaItemClicked: (mediaItem: MediaItem) -> Unit = {}
+    queryText: String = "", viewModel: SearchViewModel = hiltViewModel(), onMediaItemClicked: (mediaItem: MediaItem) -> Unit = {}
 ) {
 
     val uiState by viewModel.uiState.collectAsState()

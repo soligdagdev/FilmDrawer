@@ -11,18 +11,25 @@ import com.soligdag.filmdrawer.data.models.MovieDetail
 import com.soligdag.filmdrawer.data.models.SearchActorResult
 import com.soligdag.filmdrawer.data.models.SearchMediaResult
 import com.soligdag.filmdrawer.data.repositories.MediaRepository
+import com.soligdag.filmdrawer.data.repositories.MediaRepositoryImpl
+import com.soligdag.filmdrawer.data.repositories.UserDataRepositoryImpl
+import dagger.assisted.Assisted
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MovieDetailViewModel(private val movieId: Int, private val mediaRepository: MediaRepository) :
-    ViewModel() {
+@HiltViewModel
+//class MovieDetailViewModel @Inject constructor(@Assisted private val savedStateHandle: SavedStateHandle, val mediaRepository : MediaRepositoryImpl)  : ViewModel() {
+class MovieDetailViewModel @Inject constructor(  savedStateHandle: SavedStateHandle, val mediaRepository : MediaRepositoryImpl, val userDataRepository : UserDataRepositoryImpl)  : ViewModel() {
     private var _uiState = MutableStateFlow(MovieDetailScreenState())
     val uiState = _uiState.asStateFlow()
-
+    private var  movieId : Int = 0
     init {
+        movieId = savedStateHandle.get<Int>("id")?:466420
         getMovieDetail()
     }
 
@@ -54,7 +61,7 @@ class MovieDetailViewModel(private val movieId: Int, private val mediaRepository
         val mediaItem = MediaItem(movie)
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch(Dispatchers.IO) {
-            when(val result = mediaRepository.addItemToWishlist(mediaItem)) {
+            when(val result = userDataRepository.addItemToWishlist(mediaItem)) {
                 is RepositoryResource.Success -> {
                     _uiState.update { it.copy(isLoading = false, addedToWishlist = true) }
                 }

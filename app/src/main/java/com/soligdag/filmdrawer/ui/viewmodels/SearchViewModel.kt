@@ -1,23 +1,31 @@
 package com.soligdag.filmdrawer.ui.viewmodels
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soligdag.filmdrawer.data.RepositoryResource
 import com.soligdag.filmdrawer.data.models.SearchActorResult
 import com.soligdag.filmdrawer.data.models.SearchMediaResult
 import com.soligdag.filmdrawer.data.repositories.MediaRepository
+import dagger.assisted.Assisted
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchViewModel(private val startSearchQuery : String, private val mediaRepository: MediaRepository) : ViewModel() {
+@HiltViewModel
+class SearchViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    private val mediaRepository: MediaRepository) : ViewModel() {
     private val _searchQuery = MutableLiveData<String>("")
     val searchQuery = _searchQuery
     private var _uiState= MutableStateFlow(SearchUIState())
     var uiState = _uiState.asStateFlow()
     init {
+        val startSearchQuery = savedStateHandle.get<String>("searchText")?:"Twilight"
         if(startSearchQuery!="") {
             _searchQuery.value = startSearchQuery
             getSearchResults()

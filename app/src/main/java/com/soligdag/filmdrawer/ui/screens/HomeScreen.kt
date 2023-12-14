@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.soligdag.filmdrawer.FilmDrawerApplication
 import com.soligdag.filmdrawer.data.models.MediaItem
@@ -38,9 +39,7 @@ import com.soligdag.filmdrawer.ui.viewmodels.viewModelFactory
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel =
-        viewModel(factory = viewModelFactory { HomeViewModel(FilmDrawerApplication.container.mediaRepository) },
-            ),
+    viewModel: HomeViewModel = hiltViewModel(),
     onMediaItemClicked : (mediaItem: MediaItem) -> Unit = { },
     onSearchTextSubmitted : (queryText: String) -> Unit = { }
 ) {

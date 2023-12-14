@@ -2,7 +2,6 @@ package com.soligdag.filmdrawer.data
 
 import android.content.Context
 import androidx.room.Room
-import com.soligdag.filmdrawer.FilmDrawerApplication
 import com.soligdag.filmdrawer.data.network.NetworkAPIService
 import com.soligdag.filmdrawer.data.repositories.MediaRepository
 import com.soligdag.filmdrawer.data.repositories.MediaRepositoryImpl
@@ -23,7 +22,7 @@ class DefaultAppContainer(private val appContext : Context) : AppContainer {
 
     private val roomDatabase = Room.databaseBuilder(context = appContext, FilmDrawerDatabase::class.java, "FilmDrawerDatabase").build()
 
-    override val mediaRepository: MediaRepository by lazy { MediaRepositoryImpl(retrofitService, roomDatabase) }
+    override val mediaRepository: MediaRepository by lazy { MediaRepositoryImpl(retrofitService) }
 
 
     private fun getRetrofitInstanceForTMDBAPIs(readTimeOut: Long = 20): Retrofit { // was 20

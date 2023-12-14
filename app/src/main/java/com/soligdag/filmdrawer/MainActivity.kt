@@ -24,7 +24,9 @@ import com.soligdag.filmdrawer.ui.screens.SeriesDetailScreen
 import com.soligdag.filmdrawer.ui.screens.WishlistScreen
 import com.soligdag.filmdrawer.ui.theme.FilmDrawerTheme
 import com.soligdag.filmdrawer.ui.theme.Typography
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +45,7 @@ class MainActivity : ComponentActivity() {
                         WindowCompat.getInsetsController(window,view).isAppearanceLightStatusBars = !isDarkTheme
                     }
                     MainComposable()
+
                     //SearchScreen("")
                     //MovieDetailScreen(movieId = 9502)
                     //SeriesDetailScreen(seriesId = 60622)

@@ -147,15 +147,7 @@ fun SeriesItemComposable(
                 .width(100.dp)
                 .align(Alignment.Start)
         )
-        Text(
-            text = mediaItem.releaseDate ,
-            style = Typography.bodySmall,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier
-                .width(100.dp)
-                .padding(start = 2.dp)
-        )
+
 
     }
 }

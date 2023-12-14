@@ -5,9 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soligdag.filmdrawer.data.repositories.MediaRepository
+import com.soligdag.filmdrawer.data.repositories.MediaRepositoryImpl
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel(private val mediaRepository: MediaRepository) : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(val mediaRepository : MediaRepositoryImpl)  : ViewModel() {
     init {
         getTrendingMovies()
     }

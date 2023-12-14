@@ -47,6 +47,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -73,15 +74,7 @@ import com.soligdag.filmdrawer.ui.viewmodels.viewModelFactory
 fun MovieDetailScreen(
     movieId: Int = 0,
     onAddedToWishList : () -> Unit = {},
-    viewModel: MovieDetailViewModel =
-        viewModel(
-            factory = viewModelFactory {
-                MovieDetailViewModel(
-                    movieId = movieId,
-                    FilmDrawerApplication.container.mediaRepository
-                )
-            },
-        )
+    viewModel: MovieDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     if (uiState.isLoading) {

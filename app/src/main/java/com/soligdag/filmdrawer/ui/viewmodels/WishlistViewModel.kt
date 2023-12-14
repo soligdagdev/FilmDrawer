@@ -9,13 +9,18 @@ import com.soligdag.filmdrawer.data.models.MediaItem
 import com.soligdag.filmdrawer.data.models.SeriesDetail
 import com.soligdag.filmdrawer.data.models.WishlistItem
 import com.soligdag.filmdrawer.data.repositories.MediaRepository
+import com.soligdag.filmdrawer.data.repositories.UserDataRepositoryImpl
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class WishlistViewModel(private val mediaRepository: MediaRepository) : ViewModel() {
+
+@HiltViewModel
+class WishlistViewModel @Inject constructor(private val userDataRepository : UserDataRepositoryImpl) : ViewModel() {
     private var _uiState = MutableStateFlow(WishlistScreenState())
     val uiState = _uiState.asStateFlow()
     init {
@@ -26,7 +31,7 @@ class WishlistViewModel(private val mediaRepository: MediaRepository) : ViewMode
     private fun getAllWishlistItems() {
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch(Dispatchers.IO) {
-            when(val result =  mediaRepository.getAllWishlistItems()) {
+            when(val result =  userDataRepository.getAllWishlistItems()) {
                 is RepositoryResource.Success -> {
                     _uiState.update { it.copy(isLoading = false, wishlistItems = result.value ) }
                 }
@@ -40,7 +45,7 @@ class WishlistViewModel(private val mediaRepository: MediaRepository) : ViewMode
     fun removeFromWishlist(wishlistItem: WishlistItem) {
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch(Dispatchers.IO) {
-            when(val result =  mediaRepository.deleteWishlistItem(wishlistItem = wishlistItem)) {
+            when(val result =  userDataRepository.deleteWishlistItem(wishlistItem = wishlistItem)) {
                 is RepositoryResource.Success -> {
                     _uiState.update { it.copy(isLoading = false, wishlistItems = result.value) }
                 }
