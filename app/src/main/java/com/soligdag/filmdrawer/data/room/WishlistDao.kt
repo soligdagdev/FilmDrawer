@@ -11,8 +11,6 @@ import com.soligdag.filmdrawer.ui.navigation.Destination
 
 @Dao
 interface WishlistDao {
-
-
     @Query("SELECT * FROM WishList")
     fun getAll() : List<WishlistItem>
 

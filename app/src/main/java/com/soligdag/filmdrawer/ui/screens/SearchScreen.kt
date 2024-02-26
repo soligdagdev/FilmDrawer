@@ -102,7 +102,7 @@ fun SearchScreenContent(
             )
     ) {
         CustomSearchView(
-            modifier = Modifier.padding(top = 16.dp),
+            modifier = Modifier.padding(top = 32.dp),
             queryText = searchQueryText,
             onQueryTextChange = { onQueryTextChanged(it) },
             onQueryTextSubmit = { onSearchBtnClicked(it) })

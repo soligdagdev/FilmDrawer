@@ -31,7 +31,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideAppDatabase(@ApplicationContext appContext: Context): FilmDrawerDatabase {
-        return Room.databaseBuilder(context = appContext , FilmDrawerDatabase::class.java, "FilmDrawerDatabase").build()
+        return Room.databaseBuilder(context = appContext , FilmDrawerDatabase::class.java, "FilmDrawerDatabase").allowMainThreadQueries().build()
     }
 
     @Provides
@@ -39,9 +39,6 @@ object AppModule {
     fun provideAPIService() : NetworkAPIService {
         return getRetrofitInstanceForTMDBAPIs().create(NetworkAPIService::class.java)
     }
-
-
-
 
     private fun getRetrofitInstanceForTMDBAPIs(readTimeOut: Long = 20): Retrofit { // was 20
         val builder = OkHttpClient().newBuilder()
@@ -59,8 +56,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMediaRepository(apiService : NetworkAPIService) : MediaRepository {
-        return MediaRepositoryImpl(apiService)
+    fun provideMediaRepository(apiService : NetworkAPIService, database: FilmDrawerDatabase) : MediaRepository {
+        return MediaRepositoryImpl(apiService, database)
         //return MediaRepositoryImpl(apiService)
     }
 

@@ -1,7 +1,5 @@
 package com.soligdag.filmdrawer.data.models
 
-import androidx.room.PrimaryKey
-
 val dummyMovie = MediaItem(
     id = 912916,
     title = "The Other Zoey",
@@ -107,7 +105,7 @@ val dummyListOfSeries = listOf(
 
 
 val dummyMovieRecommendation = Recommendation(
-    id = 2312,
+    recommendationId = 2312,
     recommenderId = 2334,
     recommenderName = "Uzair Ahmad",
     receiverId = 234,

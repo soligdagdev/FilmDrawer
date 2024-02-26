@@ -22,7 +22,7 @@ class DefaultAppContainer(private val appContext : Context) : AppContainer {
 
     private val roomDatabase = Room.databaseBuilder(context = appContext, FilmDrawerDatabase::class.java, "FilmDrawerDatabase").build()
 
-    override val mediaRepository: MediaRepository by lazy { MediaRepositoryImpl(retrofitService) }
+    override val mediaRepository: MediaRepository by lazy { MediaRepositoryImpl(retrofitService, roomDatabase) }
 
 
     private fun getRetrofitInstanceForTMDBAPIs(readTimeOut: Long = 20): Retrofit { // was 20

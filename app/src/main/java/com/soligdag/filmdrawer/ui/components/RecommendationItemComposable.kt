@@ -46,7 +46,7 @@ fun RecommendationItemComposable(
                     .data("https://image.tmdb.org/t/p/w300_and_h450_bestv2" + recommendation.mediaItem.posterPath)
                     .crossfade(true)
                     .build(),
-                placeholder = painterResource(R.drawable.mi_poster),
+                //placeholder = painterResource(R.drawable.mi_poster),
                 contentDescription = "poster",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier

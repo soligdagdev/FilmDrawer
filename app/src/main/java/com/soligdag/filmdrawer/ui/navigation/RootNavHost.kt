@@ -1,8 +1,10 @@
 package com.soligdag.filmdrawer.ui.navigation
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -19,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -31,10 +34,25 @@ import com.soligdag.filmdrawer.ui.screens.SplashScreen
 @Composable
 fun MainComposable() {
     val navController = rememberNavController()
+    var bottomNavSelectedIndex by rememberSaveable {
+        mutableIntStateOf(0)
+    }
+    navController.addOnDestinationChangedListener(NavController.OnDestinationChangedListener { _, navDestination, _ ->
+        Log.d("Navigated to ", navDestination.route?:"")
+        when(navDestination.route) {
+            Destination.Home.route -> bottomNavSelectedIndex = 0
+            Destination.Recommendations.route -> bottomNavSelectedIndex = 1
+            Destination.Wishlist.route -> bottomNavSelectedIndex = 2
+            Destination.Profile.route -> bottomNavSelectedIndex = 3
+        }
+        if(navDestination.route == Destination.Home.route) {
+            bottomNavSelectedIndex = 0
+        }
+    })
     Scaffold(
         bottomBar = {
-            BottomNavigation(navController)
-        }
+            BottomNavigation(navController, bottomNavSelectedIndex, onBottomNavIndexUpdated = { bottomNavSelectedIndex = it})
+        }, contentWindowInsets = WindowInsets(0.dp,0.dp,0.dp,0.dp)
     ) {
         RootNavigation(navController = navController, paddingValues = it)
     }
@@ -42,11 +60,9 @@ fun MainComposable() {
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun BottomNavigation(navController: NavHostController) {
+fun BottomNavigation(navController: NavHostController, bottomNavSelectedIndex : Int, onBottomNavIndexUpdated : (index : Int)-> Unit) {
     val bottomNavDestinations = Destination.getBottomNavigationDestinations()
-    var bottomNavSelectedIndex by rememberSaveable {
-        mutableIntStateOf(0)
-    }
+
     AnimatedVisibility(visible = bottomBarVisibility(navController).value) {
         NavigationBar() {
             bottomNavDestinations.forEachIndexed { index, destination ->
@@ -59,7 +75,8 @@ fun BottomNavigation(navController: NavHostController) {
                         )
                     },
                     onClick = {
-                        bottomNavSelectedIndex = index
+                        //bottomNavSelectedIndex = index
+                        onBottomNavIndexUpdated(index)
                         navController.navigate(destination.route) {
                             popUpTo(Destination.Home.route) {
                                 saveState = true
@@ -92,13 +109,27 @@ private fun bottomBarVisibility(navController: NavController): MutableState<Bool
 
 @Composable
 fun RootNavigation(navController: NavHostController, paddingValues: PaddingValues) {
-    NavHost(navController = navController, startDestination = Routes.POSTLOGIN, modifier= Modifier.padding(paddingValues)) {
+    NavHost(navController = navController, startDestination = Destination.Splash.route, modifier= Modifier.padding(paddingValues)) {
         composable(Destination.Splash.route) {
-            SplashScreen(onDataReceived = { isLoggedIn ->
-                if (isLoggedIn) {
-                    navController.navigate("Login")
-                } else {
-                    navController.navigate("Home")
+            SplashScreen(onDataReceived = { isLoggedIn, isEmailVerified ->
+                if (!isLoggedIn) {
+                    navController.navigate(Routes.PRELOGIN) {
+                        popUpTo(Destination.Splash.route) {
+                            inclusive = true
+                        }
+                    }
+                } else if(!isEmailVerified) {
+                    navController.navigate("preLoginRoute/emailVerificationScreen") {
+                        popUpTo(Destination.Splash.route) {
+                            inclusive = true
+                        }
+                    }
+                }else {
+                    navController.navigate(Routes.POSTLOGIN) {
+                        popUpTo(Destination.Splash.route) {
+                            inclusive = true
+                        }
+                    }
                 }
             })
         }

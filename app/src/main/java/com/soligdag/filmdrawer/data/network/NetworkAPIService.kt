@@ -15,15 +15,19 @@ import retrofit2.http.Query
 
 interface NetworkAPIService {
     // private  val token  = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MWQxNzU4ZjhhZGE0ZGFmOGVlYjUxMzMwNjRkODJmYSIsInN1YiI6IjY1MjZmNGUzODEzODMxMDBjNDg5YTY5MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.o8ps6XFTtbxoCw1zepMLynDDPJmHckFyf48EZxpdIFs"
-    @GET("volumes")
+    @GET("movie/popular")
     suspend fun getPopularMovies(
-        @Query("q") queryString: String,
-        @Query("startIndex") startIndex: Int,
-        @Query("maxResults") maxResults: Int
-    ): Response<JSONObject>
+        @Query("page") page: Int,
+        @Header("Authorization") token: String,
+        @Header("accept") accept: String = "application/json"
+    ): SearchMediaResult
 
-    @GET("volumes/{volumeId}")
-    suspend fun getPopularTVShows(@Path("volumeId") volumeId: String): Response<JSONObject>
+    @GET("tv/popular")
+    suspend fun getPopularTVSeries(
+        @Query("page") page: Int,
+        @Header("Authorization") token: String,
+        @Header("accept") accept: String = "application/json"
+    ): SearchMediaResult
 
 
     @GET("search/movie")

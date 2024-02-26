@@ -38,7 +38,7 @@ fun CastItemComposable(castMember: CastMember) {
                     .data("https://image.tmdb.org/t/p/w276_and_h350_face/"+castMember.profilePath)
                     .crossfade(true)
                     .build(),
-                placeholder = painterResource(R.drawable.mi_poster),
+               // placeholder = painterResource(R.drawable.mi_poster),
                 contentDescription = "poster",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -81,7 +81,7 @@ fun MediaPersonComposable(mediaPerson: MediaPerson, onMediaPersonClicked : () ->
                     .data("https://image.tmdb.org/t/p/w276_and_h350_face/"+mediaPerson.profilePath)
                     .crossfade(true)
                     .build(),
-                placeholder = painterResource(R.drawable.mi_poster),
+                //placeholder = painterResource(R.drawable.mi_poster),
                 contentDescription = "poster",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier

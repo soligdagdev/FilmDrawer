@@ -47,7 +47,13 @@ fun NavGraphBuilder.postLoginNavigation(navController: NavController) {
             })
         }
         composable(Destination.Profile.route) {
-            ProfileScreen()
+            ProfileScreen(onUserLoggedOut = {
+                navController.navigate(Routes.PRELOGIN) {
+                    popUpTo(Routes.POSTLOGIN){
+                        inclusive = true
+                    }
+                }
+            })
         }
         composable(Destination.Search.route, arguments = listOf(navArgument("searchText") {type = NavType.StringType})) {
             SearchScreen(queryText = it.arguments?.getString("searchText")?:"", onMediaItemClicked = { mediaItem: MediaItem ->
@@ -63,12 +69,10 @@ fun NavGraphBuilder.postLoginNavigation(navController: NavController) {
             MovieDetailScreen(movieId = it.arguments?.getInt("id")?:0, onAddedToWishList = {
                 navController.navigate(route = Destination.Wishlist.route) {
                     popUpTo(Destination.Home.route) {
-                        saveState = true
+                        inclusive = true
                     }
-                    launchSingleTop = true
-                    restoreState = true
                 }
-            })
+            }, onBackBtnPressed = {navController.popBackStack() })
         }
         composable(Destination.SeriesDetail.route , arguments = listOf(navArgument("id") {type = NavType.IntType})) {
             SeriesDetailScreen(seriesId = it.arguments?.getInt("id")?:0, onAddedToWishList = {
@@ -79,7 +83,7 @@ fun NavGraphBuilder.postLoginNavigation(navController: NavController) {
                     launchSingleTop = true
                     restoreState = true
                 }
-            })
+            }, onBackBtnPressed = { navController.popBackStack() })
         }
         composable(Destination.ActorDetail.route) {
             ActorDetailScreen()

@@ -18,4 +18,8 @@ interface MediaRepository {
     suspend fun getSeriesDetail(seriesId : Int) : RepositoryResource<Pair<SeriesDetail, CastList>>
 
 
+//    suspend fun getTrendingMoviesFromDB() : RepositoryResource<List<MediaItem>>
+//    suspend fun getTrendingSeriesFromDB() : RepositoryResource<List<MediaItem>>
+
+
 }

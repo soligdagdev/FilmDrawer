@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "302693979445",
+    "project_id": "film-drawer",
+    "storage_bucket": "film-drawer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302693979445:android:4f2d9736dd553229a1a87c",
+        "android_client_info": {
+          "package_name": "com.soligdag.filmdrawer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6dADbSMQ9OVkrG_2sWdouCZlFNhk4wGg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

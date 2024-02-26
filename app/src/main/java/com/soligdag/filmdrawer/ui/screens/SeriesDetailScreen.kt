@@ -71,6 +71,7 @@ import com.soligdag.filmdrawer.ui.viewmodels.viewModelFactory
 fun SeriesDetailScreen(
     seriesId: Int = 0,
     onAddedToWishList : () -> Unit = {},
+    onBackBtnPressed: () -> Unit = {},
     viewModel: SeriesDetailViewModel =
         hiltViewModel()
 ) {
@@ -82,7 +83,8 @@ fun SeriesDetailScreen(
         seriesDetailContent(
             seriesDetail = uiState.seriesDetail!!,
             castMembers = uiState.castList!!.castMembers,
-            onAddToWishlistClicked = { viewModel.addSeriesToWishlist(uiState.seriesDetail!!)}
+            onAddToWishlistClicked = { viewModel.addSeriesToWishlist(uiState.seriesDetail!!)},
+            onBackBtnPressed = { onBackBtnPressed()}
         )
 }
 
@@ -93,7 +95,8 @@ private fun seriesDetailContent(
     director: CrewMember = dummyCrewMemberDirector,
     onMarkAsFavouriteClicked: () -> Unit = {},
     onShareAsRecommendationClicked: () -> Unit = {},
-    onAddToWishlistClicked: () -> Unit = {}
+    onAddToWishlistClicked: () -> Unit = {},
+    onBackBtnPressed : () -> Unit = {}
 ) {
     var sizeImage by remember { mutableStateOf(IntSize.Zero) }
     Box(
@@ -107,7 +110,7 @@ private fun seriesDetailContent(
                 .data("https://image.tmdb.org/t/p/original/" + seriesDetail.backdropPath)
                 .crossfade(true)
                 .build(),
-            placeholder = painterResource(R.drawable.mi_poster),
+            //placeholder = painterResource(R.drawable.mi_poster),
             contentDescription = "poster",
             contentScale = ContentScale.Fit,
             modifier = Modifier
@@ -150,7 +153,7 @@ private fun seriesDetailContent(
 
         Row(modifier = Modifier.padding(start = 16.dp, top = 48.dp, end = 16.dp)) {
             BackBtn(modifier = Modifier) {
-
+                onBackBtnPressed()
             }
             Spacer(modifier = Modifier.weight(1f))
             Dropdown(
@@ -179,7 +182,7 @@ private fun seriesDetailContent(
                     .data("https://image.tmdb.org/t/p/w300_and_h450_bestv2" + seriesDetail.posterPath)
                     .crossfade(true)
                     .build(),
-                placeholder = painterResource(R.drawable.mi_poster),
+                //placeholder = painterResource(R.drawable.mi_poster),
                 contentDescription = "poster",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier

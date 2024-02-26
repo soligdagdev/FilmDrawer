@@ -33,6 +33,8 @@ sealed class Destination (val route : String, val title : String? = null, val ic
                 return listOf(Home,Recommendations,Wishlist,Profile)
             }
 
+            const val emailVerificationDeepLink = "android-app://androidx.navigation/preLoginRoute/emailVerificationScreen"
+
 
         }
 

@@ -20,10 +20,50 @@
             android:theme="@style/Theme.FilmDrawer">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <!-- If utilizing $deeplink_path please explicitly declare your hosts, or utilize a wildcard(*) -->
+                <!-- REPLACE `android:scheme` with your Android URI scheme -->
+                <data android:scheme="filmdrawer" android:host="open" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+
+<!--            &lt;!&ndash; Branch App Links - Live App &ndash;&gt;-->
+<!--            <intent-filter android:autoVerify="true">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                &lt;!&ndash; REPLACE `android:host` with your `app.link` domain &ndash;&gt;-->
+<!--                <data android:scheme="https" android:host="example.app.link" />-->
+<!--                &lt;!&ndash; REPLACE `android:host` with your `-alternate` domain (required for proper functioning of App Links and Deepviews) &ndash;&gt;-->
+<!--                <data android:scheme="https" android:host="example-alternate.app.link" />-->
+<!--            </intent-filter>-->
+
+<!--            &lt;!&ndash; Branch App Links - Test App &ndash;&gt;-->
+<!--            <intent-filter android:autoVerify="true">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                <data android:scheme="https" android:host="example.test-app.link" />-->
+<!--                &lt;!&ndash; REPLACE `android:host` with your `-alternate` domain (required for proper functioning of App Links and Deepviews) &ndash;&gt;-->
+<!--                <data android:scheme="https" android:host="example-alternate.test-app.link" />-->
+<!--            </intent-filter>-->
+
         </activity>
+
+        <!-- Branch init -->
+        <!-- REPLACE `BranchKey` with the value from your Branch Dashboard -->
+        <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_test_kDlxXlBN74edeCd2p84OAojiqsfMRMfe" />
+        <!-- REPLACE `BranchKey.test` with the value from your Branch Dashboard -->
+        <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="key_test_kDlxXlBN74edeCd2p84OAojiqsfMRMfe" />
+        <!-- Set to `true` to use `BranchKey.test` -->
+        <meta-data android:name="io.branch.sdk.TestMode" android:value="true" />
+
+
     </application>
 
 </manifest>

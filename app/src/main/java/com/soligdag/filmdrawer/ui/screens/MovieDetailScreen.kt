@@ -74,6 +74,7 @@ import com.soligdag.filmdrawer.ui.viewmodels.viewModelFactory
 fun MovieDetailScreen(
     movieId: Int = 0,
     onAddedToWishList : () -> Unit = {},
+    onBackBtnPressed: () -> Unit = {},
     viewModel: MovieDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -81,9 +82,9 @@ fun MovieDetailScreen(
         LoadingDialog()
     }
     if(uiState.addedToWishlist) {
-        LaunchedEffect(key1 = Unit) {
-            onAddedToWishList()
+        LaunchedEffect(Unit) {
             viewModel.resetState()
+            onAddedToWishList()
         }
     }
     if (uiState.movieDetail != null && uiState.castList != null)
@@ -92,7 +93,7 @@ fun MovieDetailScreen(
             castMembers = uiState.castList!!.castMembers,
             onAddToWishlistClicked = {
                 viewModel.addMovieToWishList(uiState.movieDetail!!)
-            })
+            }, onBackBtnPressed = { onBackBtnPressed()})
 }
 
 @Composable
@@ -102,14 +103,14 @@ private fun movieDetailContent(
     director: CrewMember = dummyCrewMemberDirector,
     onMarkAsFavouriteClicked: () -> Unit = {},
     onShareAsRecommendationClicked: () -> Unit = {},
-    onAddToWishlistClicked: () -> Unit = {}
+    onAddToWishlistClicked: () -> Unit = {},
+    onBackBtnPressed : () -> Unit = {}
 ) {
     var sizeImage by remember { mutableStateOf(IntSize.Zero) }
     Box(
         Modifier
             .width(1700.dp)
             .height(350.dp)
-            .background(Color.Blue)
     ) {
 
         AsyncImage(
@@ -117,18 +118,13 @@ private fun movieDetailContent(
                 .data("https://image.tmdb.org/t/p/original/" + movieDetail.backdropPath)
                 .crossfade(true)
                 .build(),
-            placeholder = painterResource(R.drawable.mi_poster),
+            //placeholder = painterResource(R.drawable.mi_poster),
             contentDescription = "poster",
             contentScale = ContentScale.Fit,
             modifier = Modifier
                 .height(350.dp)
                 .scale(2f)
                 .onGloballyPositioned { sizeImage = it.size }
-        )
-        val gradient = Brush.verticalGradient(
-            colors = listOf(Color.Transparent, MaterialTheme.colorScheme.background),
-            startY = 0f,  // 1/3
-            endY = sizeImage.height.toFloat()
         )
 
 
@@ -160,7 +156,7 @@ private fun movieDetailContent(
 
         Row(modifier = Modifier.padding(start = 16.dp, top = 48.dp, end = 16.dp)) {
             BackBtn(modifier = Modifier) {
-
+                onBackBtnPressed()
             }
             Spacer(modifier = Modifier.weight(1f))
             Dropdown(
@@ -197,7 +193,7 @@ private fun movieDetailContent(
                     .data("https://image.tmdb.org/t/p/w300_and_h450_bestv2/" + movieDetail.posterPath)
                     .crossfade(true)
                     .build(),
-                placeholder = painterResource(R.drawable.mi_poster),
+                //placeholder = painterResource(R.drawable.mi_poster),
                 contentDescription = "poster",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier

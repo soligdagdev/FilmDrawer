@@ -66,7 +66,7 @@ fun MovieItemComposable(
                     .data("https://image.tmdb.org/t/p/w300_and_h450_bestv2" + mediaItem.posterPath)
                     .crossfade(true)
                     .build(),
-                placeholder = painterResource(R.drawable.mi_poster),
+                //placeholder = painterResource(R.drawable.mi_poster),
                 contentDescription = "poster",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
@@ -123,7 +123,7 @@ fun SeriesItemComposable(
                     .data("https://image.tmdb.org/t/p/w300_and_h450_bestv2" + mediaItem.posterPath)
                     .crossfade(true)
                     .build(),
-                placeholder = painterResource(R.drawable.mi_poster),
+                //placeholder = painterResource(R.drawable.mi_poster),
                 contentDescription = "poster",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
@@ -291,7 +291,7 @@ fun WatchListMediaItemComposable(
                     .data("https://image.tmdb.org/t/p/w300_and_h450_bestv2" + wishlistItem.posterPath)
                     .crossfade(true)
                     .build(),
-                placeholder = painterResource(R.drawable.mi_poster),
+                //placeholder = painterResource(R.drawable.mi_poster),
                 contentDescription = "poster",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
