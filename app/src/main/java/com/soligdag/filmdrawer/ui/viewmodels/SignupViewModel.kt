@@ -16,17 +16,27 @@ import javax.inject.Inject
 class SignupViewModel @Inject constructor(
     private val userDataRepository: UserDataRepository
 ) : ViewModel() {
-    private val _email = MutableLiveData("")
+    private val _email = MutableLiveData("hammadahmed767@gmail.com")
     val email = _email
-    private val _password = MutableLiveData("")
+    private val _password = MutableLiveData("12345678")
     val password = _password
-    private val _confirmPassword = MutableLiveData("")
+    private val _confirmPassword = MutableLiveData("12345678")
     val confirmPassword = _confirmPassword
+    private val _firstName = MutableLiveData("Hammad")
+    val firstName = _firstName
+    private val _lastName= MutableLiveData("Ahmed")
+    val lastName = _lastName
     private var _uiState= MutableStateFlow(SignupScreenState())
     var uiState = _uiState.asStateFlow()
 
     fun onEmailChange(newValue: String) {
         _email.value = newValue
+    }
+    fun onFirstNameChange(newValue: String) {
+        _firstName.value = newValue
+    }
+    fun onLastNameChange(newValue: String) {
+        _lastName.value = newValue
     }
     fun onPasswordChange(newValue : String) {
         _password.value = newValue
@@ -37,9 +47,9 @@ class SignupViewModel @Inject constructor(
 
     fun signupUser() {
         _uiState.value = SignupScreenState(isLoading = true)
-        //_uiState.value = SignupScreenState(isLoading = false,signupErrorMessage = "", hasSignedUp = true)
         viewModelScope.launch {
-            when(val response = userDataRepository.signUpUserWithCredentials(email.value!!,password.value!!)) {
+            when(val response = userDataRepository.signUpUserWithCredentials(email = email.value!!,password = password.value!!, firstName = firstName.value!!, lastName = lastName.value!!)) {
+
                 is RepositoryResource.Success -> {
                     _uiState.value = SignupScreenState(isLoading = false,signupErrorMessage = "", hasSignedUp = true)
                 }

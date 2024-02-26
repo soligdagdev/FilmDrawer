@@ -25,7 +25,7 @@ fun NavGraphBuilder.preLoginNavigation(navController: NavController) {
             })
         }
         composable(Destination.Signup.route) {
-            SignupScreen(onLoginClicked = {navController.popBackStack()}, onSignedUp = { navController.navigate(Routes.POSTLOGIN) })
+            SignupScreen(onLoginClicked = {navController.popBackStack()}, onSignedUp = { navController.navigate(Destination.EmailVerification.route) { popUpTo(Destination.Login.route) { inclusive = true } } })
         }
         composable(Destination.EmailVerification.route, deepLinks = listOf(navDeepLink {
             uriPattern = Destination.emailVerificationDeepLink

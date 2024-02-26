@@ -13,8 +13,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -64,6 +66,8 @@ fun SignupScreen(viewModel: SignupViewModel = hiltViewModel(), onLoginClicked: (
     val email by viewModel.email.observeAsState()
     val password by viewModel.password.observeAsState()
     val confirmPassword by viewModel.confirmPassword.observeAsState()
+    val firstName by viewModel.firstName.observeAsState()
+    val lastName by viewModel.lastName.observeAsState()
     if (uiState.isLoading) {
         LoadingDialog()
     }
@@ -79,9 +83,13 @@ fun SignupScreen(viewModel: SignupViewModel = hiltViewModel(), onLoginClicked: (
     }
 
     SignupScreenContent(
+        firstName = firstName?:"",
+        lastName = lastName?:"",
         email = email ?: "",
         password = password ?: "",
         confirmPassword = confirmPassword ?: "",
+        onFirstNameChanged = { viewModel.onFirstNameChange(it)},
+        onLastNameChanged = { viewModel.onLastNameChange(it)},
         onEmailChanged = { viewModel.onEmailChange(it) },
         onPasswordChanged = { viewModel.onPasswordChange(it) },
         onConfirmPasswordChanged = { viewModel.onConfirmPasswordChange(it) },
@@ -93,9 +101,13 @@ fun SignupScreen(viewModel: SignupViewModel = hiltViewModel(), onLoginClicked: (
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignupScreenContent(
+    firstName : String = "",
+    lastName : String  = "",
     email: String = "",
     password: String = "",
     confirmPassword: String = "",
+    onFirstNameChanged: (newText: String) -> Unit = {},
+    onLastNameChanged: (newText: String) -> Unit = {},
     onEmailChanged: (newText: String) -> Unit = {},
     onPasswordChanged: (newText: String) -> Unit = {},
     onConfirmPasswordChanged: (newText: String) -> Unit = {},
@@ -151,9 +163,10 @@ fun SignupScreenContent(
 
         Column(
             Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
@@ -166,12 +179,26 @@ fun SignupScreenContent(
                 )
             }
             var passwordVisibility: Boolean by remember { mutableStateOf(false) }
-            var confirmPasswordVisibility: Boolean by remember { mutableStateOf(false) }
+            val confirmPasswordVisibility: Boolean by remember { mutableStateOf(false) }
+            OutlinedTextField(
+                value = firstName,
+                onValueChange = { onFirstNameChanged(it) },
+                label = { Text(text = "First name") },
+                modifier = Modifier.fillMaxWidth(0.8f).padding(0.dp, 12.dp),
+                shape = RoundedCornerShape(12.dp)
+            )
+            OutlinedTextField(
+                value = lastName,
+                onValueChange = { onLastNameChanged(it) },
+                label = { Text(text = "Last name") },
+                modifier = Modifier.fillMaxWidth(0.8f).padding(0.dp, 12.dp),
+                shape = RoundedCornerShape(12.dp)
+            )
             OutlinedTextField(
                 value = email,
                 onValueChange = { onEmailChanged(it) },
                 label = { Text(text = "Email") },
-                modifier = Modifier.fillMaxWidth(0.8f),
+                modifier = Modifier.fillMaxWidth(0.8f).padding(0.dp, 12.dp),
                 shape = RoundedCornerShape(12.dp)
             )
 
@@ -228,7 +255,7 @@ fun SignupScreenContent(
 
             Row(Modifier.padding(32.dp)) {
                 Text("Already have an account?", style = Typography.bodyMedium)
-                var signupLinkStyle = TextStyle(
+                val signupLinkStyle = TextStyle(
                     fontFamily = FontFamily(Font(R.font.montserrat_regular, FontWeight.Normal)),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,

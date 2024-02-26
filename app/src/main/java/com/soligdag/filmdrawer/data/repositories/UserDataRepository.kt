@@ -12,7 +12,7 @@ interface UserDataRepository {
     suspend fun deleteWishlistItem(wishlistItem: WishlistItem) : RepositoryResource<List<WishlistItem>>
     suspend fun getRecentRecommendations() : RepositoryResource<List<Recommendation>>
     suspend fun signInUserWithCredentials(email : String, password : String) : RepositoryResource<Boolean>
-    suspend fun signUpUserWithCredentials(email : String, password : String) : RepositoryResource<Boolean>
+    suspend fun signUpUserWithCredentials(email : String, password : String, firstName : String, lastName : String) : RepositoryResource<Boolean>
     suspend fun resendVerificationEmailToUser() : RepositoryResource<Boolean>
      fun getUserEmailAddress() : String
     suspend fun reloadUserInfo() : RepositoryResource<User>
