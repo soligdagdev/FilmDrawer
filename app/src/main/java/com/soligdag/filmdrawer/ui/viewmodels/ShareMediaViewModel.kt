@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.soligdag.filmdrawer.data.models.CastList
 import com.soligdag.filmdrawer.data.models.SeriesDetail
 import com.soligdag.filmdrawer.data.repositories.MediaRepository
-import com.soligdag.filmdrawer.data.repositories.UserDataRepositoryImpl
+import com.soligdag.filmdrawer.data.repositories.UserDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.branch.indexing.BranchUniversalObject
 import io.branch.referral.util.LinkProperties
@@ -22,12 +22,21 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class ShareMediaViewModel @Inject constructor( private val mediaRepository: MediaRepository, private val userDataRepository : UserDataRepositoryImpl) : ViewModel() {
+class ShareMediaViewModel @Inject constructor(savedStateHandle: SavedStateHandle, private val mediaRepository: MediaRepository, private val userDataRepository : UserDataRepository) : ViewModel() {
 
     private var _uiState = MutableStateFlow(ShareMediaState())
     val uiState = _uiState.asStateFlow()
+    private var mediaItemId : Int = 0
+    private var mediaItemType : String = ""
+    init {
+        mediaItemId = savedStateHandle.get<Int>("id")?:0
+        mediaItemType = savedStateHandle.get<String>("mediaType")?:"movie"
+        getMediaItemDetail()
+    }
 
+    private fun getMediaItemDetail() {
 
+    }
     fun resetState() {
         _uiState.update { it.copy(isLoading = false, showNativeShareDialog = false ) }
     }

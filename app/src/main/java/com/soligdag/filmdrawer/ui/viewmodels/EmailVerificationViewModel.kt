@@ -55,7 +55,7 @@ class EmailVerificationViewModel @Inject constructor(
     private fun checkIfEmailIsVerified() {
         viewModelScope.launch {
             while (!_uiState.value.emailVerified) {
-                delay(10000)
+                delay(3000)
                 when(val response = userDataRepository.reloadUserInfo()) {
                     is RepositoryResource.Success -> {
                         val user = response.value

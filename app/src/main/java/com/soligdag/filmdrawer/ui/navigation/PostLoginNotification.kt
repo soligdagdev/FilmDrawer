@@ -1,5 +1,6 @@
 package com.soligdag.filmdrawer.ui.navigation
 
+import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -16,6 +17,7 @@ import com.soligdag.filmdrawer.ui.screens.ProfileScreen
 import com.soligdag.filmdrawer.ui.screens.RecommendationsListScreen
 import com.soligdag.filmdrawer.ui.screens.SearchScreen
 import com.soligdag.filmdrawer.ui.screens.SeriesDetailScreen
+import com.soligdag.filmdrawer.ui.screens.ShareMediaScreen
 import com.soligdag.filmdrawer.ui.screens.TrendingsListScreen
 import com.soligdag.filmdrawer.ui.screens.WishlistScreen
 
@@ -24,13 +26,13 @@ fun NavGraphBuilder.postLoginNavigation(navController: NavController) {
         composable(route = Destination.Home.route) {
             HomeScreen(onMediaItemClicked = { mediaItem: MediaItem ->
                 if (mediaItem.mediaType == "movie") {
-                    navController.navigate(route = "movieDetailScreen/"+mediaItem.id)
+                    navController.navigate(route = "movieDetailScreen/" + mediaItem.id)
+                } else {
+                    navController.navigate(route = "seriesDetailScreen/" + mediaItem.id)
                 }
-                else {
-                    navController.navigate(route = "seriesDetailScreen/"+mediaItem.id)
-                }
-            }, onSearchTextSubmitted = { searchText -> String
-                navController.navigate(route = "searchScreen/"+searchText)
+            }, onSearchTextSubmitted = { searchText ->
+                String
+                navController.navigate(route = "searchScreen/" + searchText)
             })
         }
         composable(Destination.Recommendations.route) {
@@ -39,44 +41,54 @@ fun NavGraphBuilder.postLoginNavigation(navController: NavController) {
         composable(Destination.Wishlist.route) {
             WishlistScreen(onItemClicked = { wishlistItem ->
                 if (wishlistItem.mediaType == "movie") {
-                    navController.navigate(route = "movieDetailScreen/"+wishlistItem.id)
-                }
-                else {
-                    navController.navigate(route = "seriesDetailScreen/"+wishlistItem.id)
+                    navController.navigate(route = "movieDetailScreen/" + wishlistItem.id)
+                } else {
+                    navController.navigate(route = "seriesDetailScreen/" + wishlistItem.id)
                 }
             })
         }
         composable(Destination.Profile.route) {
             ProfileScreen(onUserLoggedOut = {
                 navController.navigate(Routes.PRELOGIN) {
-                    popUpTo(Routes.POSTLOGIN){
+                    popUpTo(Routes.POSTLOGIN) {
                         inclusive = true
                     }
                 }
             })
         }
-        composable(Destination.Search.route, arguments = listOf(navArgument("searchText") {type = NavType.StringType})) {
-            SearchScreen(queryText = it.arguments?.getString("searchText")?:"", onMediaItemClicked = { mediaItem: MediaItem ->
-                if (mediaItem.mediaType == "movie") {
-                    navController.navigate(route = "movieDetailScreen/"+mediaItem.id)
-                }
-                else {
-                    navController.navigate(route = "seriesDetailScreen/"+mediaItem.id)
-                }
-            })
+        composable(
+            Destination.Search.route,
+            arguments = listOf(navArgument("searchText") { type = NavType.StringType })
+        ) {
+            SearchScreen(
+                queryText = it.arguments?.getString("searchText") ?: "",
+                onMediaItemClicked = { mediaItem: MediaItem ->
+                    if (mediaItem.mediaType == "movie") {
+                        navController.navigate(route = "movieDetailScreen/" + mediaItem.id)
+                    } else {
+                        navController.navigate(route = "seriesDetailScreen/" + mediaItem.id)
+                    }
+                })
         }
-        composable(Destination.MovieDetail.route , arguments = listOf(navArgument("id") {type = NavType.IntType})) {
-            MovieDetailScreen(movieId = it.arguments?.getInt("id")?:0, onAddedToWishList = {
+        composable(
+            Destination.MovieDetail.route,
+            arguments = listOf(navArgument("id") { type = NavType.IntType })
+        ) {
+            MovieDetailScreen(movieId = it.arguments?.getInt("id") ?: 0, onAddedToWishList = {
+                navController.popBackStack()
                 navController.navigate(route = Destination.Wishlist.route) {
                     popUpTo(Destination.Home.route) {
                         inclusive = true
                     }
                 }
-            }, onBackBtnPressed = {navController.popBackStack() })
+            }, onBackBtnPressed = { navController.popBackStack() }, onShareBtnPressed = {  })
         }
-        composable(Destination.SeriesDetail.route , arguments = listOf(navArgument("id") {type = NavType.IntType})) {
-            SeriesDetailScreen(seriesId = it.arguments?.getInt("id")?:0, onAddedToWishList = {
-                navController.navigate(route = Destination.Wishlist.route) {
+        composable(
+            Destination.SeriesDetail.route,
+            arguments = listOf(navArgument("id") { type = NavType.IntType })
+        ) {
+            SeriesDetailScreen(seriesId = it.arguments?.getInt("id") ?: 0, onAddedToWishList = {
+                 navController.navigate(route = Destination.Wishlist.route) {
                     popUpTo(Destination.Home.route) {
                         saveState = true
                     }
@@ -84,6 +96,9 @@ fun NavGraphBuilder.postLoginNavigation(navController: NavController) {
                     restoreState = true
                 }
             }, onBackBtnPressed = { navController.popBackStack() })
+        }
+        composable(route = Destination.ShareMedia.route, arguments = listOf(navArgument("id") { type = NavType.IntType }, navArgument("type") { type = NavType.StringType })) {
+            ShareMediaScreen()
         }
         composable(Destination.ActorDetail.route) {
             ActorDetailScreen()

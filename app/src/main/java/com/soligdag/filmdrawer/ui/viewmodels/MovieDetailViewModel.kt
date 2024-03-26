@@ -8,11 +8,8 @@ import com.soligdag.filmdrawer.data.RepositoryResource
 import com.soligdag.filmdrawer.data.models.CastList
 import com.soligdag.filmdrawer.data.models.MediaItem
 import com.soligdag.filmdrawer.data.models.MovieDetail
-import com.soligdag.filmdrawer.data.models.SearchActorResult
-import com.soligdag.filmdrawer.data.models.SearchMediaResult
 import com.soligdag.filmdrawer.data.repositories.MediaRepository
-import com.soligdag.filmdrawer.data.repositories.MediaRepositoryImpl
-import com.soligdag.filmdrawer.data.repositories.UserDataRepositoryImpl
+import com.soligdag.filmdrawer.data.repositories.UserDataRepository
 import dagger.assisted.Assisted
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 //class MovieDetailViewModel @Inject constructor(@Assisted private val savedStateHandle: SavedStateHandle, val mediaRepository : MediaRepositoryImpl)  : ViewModel() {
-class MovieDetailViewModel @Inject constructor(  savedStateHandle: SavedStateHandle, val mediaRepository : MediaRepositoryImpl, val userDataRepository : UserDataRepositoryImpl)  : ViewModel() {
+class MovieDetailViewModel @Inject constructor(savedStateHandle: SavedStateHandle, val mediaRepository : MediaRepository, val userDataRepository : UserDataRepository)  : ViewModel() {
     private var _uiState = MutableStateFlow(MovieDetailScreenState())
     val uiState = _uiState.asStateFlow()
     private var  movieId : Int = 0

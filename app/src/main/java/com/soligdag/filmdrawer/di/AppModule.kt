@@ -6,6 +6,8 @@ import androidx.room.RoomDatabase
 import com.soligdag.filmdrawer.data.network.NetworkAPIService
 import com.soligdag.filmdrawer.data.repositories.MediaRepository
 import com.soligdag.filmdrawer.data.repositories.MediaRepositoryImpl
+import com.soligdag.filmdrawer.data.repositories.SharedPrefRepository
+import com.soligdag.filmdrawer.data.repositories.SharedPrefRepositoryImpl
 import com.soligdag.filmdrawer.data.repositories.UserDataRepository
 import com.soligdag.filmdrawer.data.repositories.UserDataRepositoryImpl
 import com.soligdag.filmdrawer.data.room.FilmDrawerDatabase
@@ -63,9 +65,16 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideUserDataRepository(roomDatabase: FilmDrawerDatabase) : UserDataRepository {
-        return UserDataRepositoryImpl(roomDatabase)
+    fun provideSharedPrefRepository(@ApplicationContext appContext: Context) : SharedPrefRepository {
+        return SharedPrefRepositoryImpl(appContext)
     }
+    @Provides
+    @Singleton
+    fun provideUserDataRepository(roomDatabase: FilmDrawerDatabase, sharedPrefRepository: SharedPrefRepository) : UserDataRepository {
+        return UserDataRepositoryImpl(roomDatabase, sharedPrefRepository)
+    }
+
+
 }
 
 

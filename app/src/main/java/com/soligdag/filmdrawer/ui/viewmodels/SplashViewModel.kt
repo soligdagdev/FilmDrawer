@@ -8,7 +8,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,7 +32,7 @@ class SplashViewModel @Inject constructor(
                 }
                 is RepositoryResource.Success -> {
                     val user = response.value
-                    if(user.uid!=null)
+                    if(user.id!=null)
                         _uiState.value = SplashScreenState(hasDataReceived = true, isLoggedIn = true, isEmailVerified = user.isEmailVerified?:false)
                     else
                         _uiState.value = SplashScreenState(hasDataReceived = true, isLoggedIn = false, isEmailVerified = false)

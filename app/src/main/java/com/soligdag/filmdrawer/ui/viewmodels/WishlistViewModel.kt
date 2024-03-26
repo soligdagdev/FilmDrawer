@@ -1,44 +1,40 @@
 package com.soligdag.filmdrawer.ui.viewmodels
-
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soligdag.filmdrawer.data.RepositoryResource
-import com.soligdag.filmdrawer.data.models.CastList
-import com.soligdag.filmdrawer.data.models.MediaItem
-import com.soligdag.filmdrawer.data.models.SeriesDetail
 import com.soligdag.filmdrawer.data.models.WishlistItem
-import com.soligdag.filmdrawer.data.repositories.MediaRepository
-import com.soligdag.filmdrawer.data.repositories.UserDataRepositoryImpl
+import com.soligdag.filmdrawer.data.repositories.UserDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
-class WishlistViewModel @Inject constructor(private val userDataRepository : UserDataRepositoryImpl) : ViewModel() {
+class WishlistViewModel @Inject constructor(private val userDataRepository : UserDataRepository) : ViewModel() {
     private var _uiState = MutableStateFlow(WishlistScreenState())
     val uiState = _uiState.asStateFlow()
     init {
-        Log.d("Wishlist Screen", "ViewModel initializing")
         getAllWishlistItems()
+        checkForLatestData()
     }
 
     private fun getAllWishlistItems() {
         _uiState.update { it.copy(isLoading = true) }
-        viewModelScope.launch(Dispatchers.IO) {
-            when(val result =  userDataRepository.getAllWishlistItems()) {
-                is RepositoryResource.Success -> {
-                    _uiState.update { it.copy(isLoading = false, wishlistItems = result.value ) }
-                }
-                is RepositoryResource.Error -> {
-                    _uiState.update { it.copy(isLoading = false, wishlistItems = null ) }
-                }
+        viewModelScope.launch { //this: CoroutineScope
+            userDataRepository.getWishListFlow().flowOn(Dispatchers.IO).collect { wishListResult: List<WishlistItem> ->
+                _uiState.update { it.copy(isLoading = false, wishlistItems = wishListResult) }
             }
+        }
+    }
+
+    private fun checkForLatestData() {
+        viewModelScope.launch {
+            userDataRepository.checkForLatestWishListData()
         }
     }
 

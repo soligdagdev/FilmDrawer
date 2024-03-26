@@ -1,28 +1,31 @@
 package com.soligdag.filmdrawer.data.models
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseUser
 import java.io.Serializable
 
 class User : Serializable {
-    var uid: String? = null
-    var name: String? = null
+    var id: String? = null
+    var firstName: String? = null
+    var lastName: String? = null
     var email: String? = null
     var isEmailVerified: Boolean? = false
+    var wishListVersion : Int = 0
 //    @ServerTimestamp
 //    var createdDate : Timestamp? = null
 //    var username = ""
 //    var genres = ArrayList<String>()
 
     internal constructor() {
-
+        Log.d("","")
     }
     internal constructor(uid : String,email : String) {
-        this.uid = uid
+        this.id = uid
         this.email = email
     }
     constructor(firebaseUser : FirebaseUser) {
-        this.uid = firebaseUser.uid
-        this.name = firebaseUser.displayName
+        this.id = firebaseUser.uid
+        this.firstName = firebaseUser.displayName
         this.email = firebaseUser.email
         this.isEmailVerified = firebaseUser.isEmailVerified
     }

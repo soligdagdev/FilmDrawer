@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -48,6 +49,9 @@ fun MainComposable() {
         if(navDestination.route == Destination.Home.route) {
             bottomNavSelectedIndex = 0
         }
+        else if(navDestination.route == Destination.Wishlist.route) {
+            bottomNavSelectedIndex = 2
+        }
     })
     Scaffold(
         bottomBar = {
@@ -58,6 +62,7 @@ fun MainComposable() {
     }
 }
 
+//val homeBottomNavigation =
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun BottomNavigation(navController: NavHostController, bottomNavSelectedIndex : Int, onBottomNavIndexUpdated : (index : Int)-> Unit) {
@@ -142,4 +147,10 @@ fun RootNavigation(navController: NavHostController, paddingValues: PaddingValue
 object Routes {
     const val PRELOGIN: String = "preLoginRoute"
     const val POSTLOGIN: String = "postLoginRoute"
+}
+
+fun NavOptionsBuilder.popUpToTop(navController: NavController) {
+    popUpTo(navController.currentBackStackEntry?.destination?.route ?: return) {
+        inclusive =  true
+    }
 }

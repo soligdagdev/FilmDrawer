@@ -7,13 +7,13 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "WishList")
 data class WishlistItem(
-    @PrimaryKey val id: Int,
-    val voteAverage: Double,
-    val releaseDate: String,
-    val posterPath: String,
-    val title: String,
-    val mediaType: String,
-    val overview : String,
+    @PrimaryKey var id: Int = 0,
+    var voteAverage: Double = 0.0,
+    var releaseDate: String = "",
+    var posterPath: String = "",
+    var title: String  ="",
+    var mediaType: String = "",
+    var overview : String = "",
     ) {
     constructor(mediaItem: MediaItem) : this(
         id = mediaItem.id,
@@ -24,4 +24,5 @@ data class WishlistItem(
         mediaType = mediaItem.mediaType,
         overview = mediaItem.overview
     )
+
 }

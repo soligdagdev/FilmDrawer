@@ -10,7 +10,6 @@ import com.soligdag.filmdrawer.data.models.Recommendation
 import com.soligdag.filmdrawer.data.models.SearchActorResult
 import com.soligdag.filmdrawer.data.models.SearchMediaResult
 import com.soligdag.filmdrawer.data.repositories.MediaRepository
-import com.soligdag.filmdrawer.data.repositories.MediaRepositoryImpl
 import com.soligdag.filmdrawer.data.repositories.UserDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -24,6 +23,9 @@ import javax.inject.Inject
 //var uiState = _uiState.asStateFlow()
 @HiltViewModel
 class HomeViewModel @Inject constructor(val mediaRepository : MediaRepository, val userDataRepository: UserDataRepository)  : ViewModel() {
+
+//    @HiltViewModel
+//    class WishlistViewModel @Inject constructor(private val userDataRepository : UserDataRepositoryImpl) : ViewModel() {
     private val _searchQuery = MutableLiveData<String>("")
     val searchQuery = _searchQuery
     private var _uiState = MutableStateFlow(HomeUIState())

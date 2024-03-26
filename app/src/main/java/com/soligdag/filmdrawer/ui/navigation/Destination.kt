@@ -27,6 +27,7 @@ sealed class Destination (val route : String, val title : String? = null, val ic
          object TrendingList : Destination (route = "trendingListScreen")
          object FriendsList : Destination (route = "friendsListScreen")
          object FriendDetail : Destination (route = "friendDetailScreen/{id}")
+         object ShareMedia : Destination (route = "shareMediaScreen/{id}/{mediaType}")
 
         companion object {
             fun getBottomNavigationDestinations() : List<Destination> {

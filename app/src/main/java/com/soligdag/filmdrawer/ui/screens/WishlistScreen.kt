@@ -33,7 +33,7 @@ import com.soligdag.filmdrawer.ui.viewmodels.viewModelFactory
 fun WishlistScreen(onItemClicked: (wishlistItem: WishlistItem) -> Unit,
     viewModel: WishlistViewModel = hiltViewModel()
 ) {
-    Log.d("Wishlist Screen", "Root Composing")
+    //Log.d("Emitting Value", "Re Composing")
     val uiState by viewModel.uiState.collectAsState()
     if (uiState.isLoading) {
         LoadingDialog()

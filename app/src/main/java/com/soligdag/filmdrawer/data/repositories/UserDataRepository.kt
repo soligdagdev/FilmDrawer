@@ -5,6 +5,7 @@ import com.soligdag.filmdrawer.data.models.MediaItem
 import com.soligdag.filmdrawer.data.models.Recommendation
 import com.soligdag.filmdrawer.data.models.User
 import com.soligdag.filmdrawer.data.models.WishlistItem
+import kotlinx.coroutines.flow.Flow
 
 interface UserDataRepository {
     suspend fun addItemToWishlist(mediaItem: MediaItem) : RepositoryResource<MediaItem>
@@ -18,5 +19,10 @@ interface UserDataRepository {
     suspend fun reloadUserInfo() : RepositoryResource<User>
 
     suspend fun logoutUser() : RepositoryResource<Boolean>
+    fun getWishListFlow() : Flow<List<WishlistItem>>
 
+    suspend fun clearAllLocalData() : RepositoryResource<Boolean>
+    suspend fun checkForLatestWishListData()
+
+     var userObj : User
 }
